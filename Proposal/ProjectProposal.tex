@@ -168,7 +168,7 @@ The proposed compiler will use Flex for lexical analysis, Bison for semantic par
 
 \begin{figure}[hbt]
    \begin{center}
-     \includegraphics[width=170mm]{agc.png}
+     \includegraphics[width=170mm]{agcv2.png}
    \end{center}
   \caption{System design overview}
   \label{fig-sysdesov}
@@ -222,7 +222,7 @@ One of the tools required for implementing the compiler is a lexer / scanner tha
 \begin{center}
 \begin{tabular}{ |l | l|  }
  \hline
- Lexer Generators & Notes \\
+ \textbf{Lexer Generators} & \textbf{Notes} \\
  \hline 
  Flex & Generates parsers that are Look-Ahead Left to Right, or simply,\\ 
  	  &
@@ -230,7 +230,7 @@ One of the tools required for implementing the compiler is a lexer / scanner tha
  	  &
  and deficiencies." [Page 17 Flex \& Bison] \\ 
  \hline 
- Lex & predecessor to Flex, also LALR \\
+ Lex & predecessor to Flex, also LALR. \\
  \hline
 \end{tabular}
 \end{center}
@@ -246,12 +246,12 @@ Another tool required for the compiler is a parser to take the tokens generated 
 \begin{center}
 \begin{tabular}{ |l | l|  }
  \hline
- Parser Generators & Notes \\
+ \textbf{Parser Generators} & \textbf{Notes} \\
  \hline 
  Bison & Newer version of Yacc, generates parsers that are LALR. No GUI,\\
-       & but smaller memory requirements \\
+       & but smaller memory requirements. \\
  \hline 
- Yacc & Older version of Bison, also LALR \\
+ Yacc & Older version of Bison, also LALR. \\
  \hline
  Antlr & Alternative, generates parser that are Left to Right, or  LL.\\
        & This may lead to issues with handling grammar. Generally \\
@@ -285,7 +285,7 @@ Black box testing will be used to test the functionality of the program. Test su
  Design & Early November (Nov 7th)  & System architecture. \\
  \hline
  Prototype & Late November (Nov 28th) & Exploring LLVM, Flex, Bison, setting up development \\
- 	    & & environments \\
+ 	    & & environments. \\
  \hline
  Testing & From Iteration 1 to Iteration 3 & Black box testing. \\
  \hline
@@ -294,7 +294,7 @@ Black box testing will be used to test the functionality of the program. Test su
  		 & & and method choices selected in the progress report.\\
  \hline
  Iteration 1 & Dec 12th  & Finish Iteration 1 before progress report, \\
- 		 & & include results in report\\
+ 		 & & include results in report.\\
  \hline
  Iteration 2 & Jan 15th & Having learned what methods work from Iteration 1, \\
  		 & & the team will refine the design and implementation of \\ 		             		 & & the AGC system for better functionality, attempting \\

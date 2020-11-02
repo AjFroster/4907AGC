@@ -168,7 +168,7 @@ The proposed compiler will use Flex for lexical analysis, Bison for semantic par
 
 \begin{figure}[hbt]
    \begin{center}
-     \includegraphics[width=170mm]{figure1.png}
+     \includegraphics[width=170mm]{agc.png}
    \end{center}
   \caption{System design overview}
   \label{fig-sysdesov}
@@ -196,7 +196,7 @@ An essential component of the runtime system is an abstract machine, which provi
 
 \subsection{Testing}
 
-The primary focus of the testing will be on the compilation functionality. Our tests primary focus: validate the proper machine code generation, and the insurance that machine code generated is according to the initial entry language specifications. In order to accomplish these primary objectives a sizable set of small programs that demonstrate unique aspects of the AGP paradigm constitute a regression test suite. This regression test suite will then be the confirmation of the compiler creation progress if each iteration of the compiler passes  the tests.
+The primary focus of the testing will be on the compilation functionality. Our tests will primarily focus on: validating the proper machine code generation, and assurance that machine code generated is according to the initial entry language specifications. In order to accomplish these primary objectives, a sizable set of small programs that demonstrate unique aspects of the AGP paradigm constitute a regression test suite. This regression test suite will then be the confirmation of the compiler creation progress if each iteration of the compiler passes the tests.
 This testing method can be considered to fall under the black box method of testing due to the prioritization of system function and results, rather than a focus of optimization that would occur if we were to do white box testing.
 
 
@@ -269,8 +269,9 @@ Of the three, we choose to use Bison, for many of the same reasons as we chose F
 
  LLVM will be used to construct, optimize and produce intermediate representation code which will then be translated into machine code. LLVM will act as a compiler framework, with a given front end composed of a parser and lexer from the Flex, Bison, and back end IR translator. Requirements Analysis will be used to define and analyze functional and nonfunctional requirements of the compiler system. With proper Requirements Analysis done prior to the project inception the compiler design and creation will be more seamless allowing for less re-work. 
 
-Black box testing will be used to test the functionality of the program. W
+Black box testing will be used to test the functionality of the program. Test suites will be created that assure that every function works as intended, and that the objectives are adequately met. The lexers/parsers shall be tested to ensure that they meet the requirements set by the language definitions of AGP. In addition, once the final iteration is complete, it shall be tested with moderately complex AGP code, as defined in the objective. These tests will decide whether the AGC project is a failure, a partial success, or a complete success.
 
+\pagebreak
 
 \section{Timetable with Milestones}
 

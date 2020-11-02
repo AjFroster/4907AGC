@@ -228,7 +228,7 @@ One of the tools required for implementing the compiler is a lexer / scanner tha
  	  &
  LALR, "a rewrite of lex intended to fix some of that tool's many bugs \\
  	  &
- and deficiencies." [Page 17 Flex \& Bison] \\ 
+ and deficiencies." [10] \\ 
  \hline 
  Lex & predecessor to Flex, also LALR. \\
  \hline
@@ -336,11 +336,7 @@ Our lack of experience in risks and mitigation is itself a risk. Having taken a 
 
 \section{Components and Facilities Required}
 
-The AGC must be compatible and function with a STM32 embedded test system. The project will be made using the most current long term support version Ubuntu Linux 20.04 LTS. The majority of the code written will be in C. C is the primary supported language for the IR translator LLVM, C is a very fast and easy to use for middle level embedded programming. Clang will be used as the native LLVM C/C++/ Objective C compiler. Flex and Bison will be needed for the lexical analyzer and parser respectively.
-\begin{itemize}
-\item FLEX coding requirements
-\item BISON coding requirements
-\end{itemize}
+The AGC must be compatible and function with a STM32 embedded test system, as specified by the project supervisor, Professor Garcia. The project will be made using the most current long term support version Ubuntu Linux 20.04 LTS. The majority of the code written will be in C. C is the primary supported language for the IR translator LLVM, C is a very fast and easy to use for middle level embedded programming. Clang will be used as the native LLVM C/C++/ Objective C compiler. Flex and Bison will be needed for the lexical analyzer and parser respectively, and as they are considered Unix utilities, are included in Ubuntu 20.04.
 
 
 
@@ -382,7 +378,7 @@ S. Diehl, P. Hartel, and P. Sestoft, “ Abstract machines for programming langu
 
 
 \bibitem{}
-J. Levine,  Levine - lex \& yacc. Sebastopol, CA: O’Reilly 1992
+Levine, J. R. (2009). Preface. In 1024727333 786678555 S. S. Laurent (Ed.), Flex \& Bison (1st ed., p. 17). O'Reily.
 
 
 

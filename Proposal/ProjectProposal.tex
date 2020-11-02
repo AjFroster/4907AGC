@@ -1,5 +1,9 @@
 \documentclass[11pt]{article}
 
+\usepackage[a4paper,bindingoffset=0.2in,%
+            left=.75in,right=.75in,top=1in,bottom=1in,%
+            footskip=.25in]{geometry}
+
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
 
@@ -7,6 +11,7 @@
 \usepackage{indentfirst}
 \usepackage{graphicx}
 \usepackage{hyperref}
+
 
 \begin{document}
 
@@ -122,7 +127,28 @@ A compiler has two major components, Analysis and Synthesis. The analysis determ
 
 There are two variations of compilation passing: single and multi-pass compilers. A single pass compiler passes information through each phase of compiler design in a singular process. This would take a high level language, pass it through a lexical analyzer, syntax analyzer, semantic analyzer, generate intermediate code, optimize code, and then generate low level code custom for the initial high level code entered. This means the analysis and synthesis is strictly custom for each input high level code and low level code pair.[7] 
 
+
+\begin{figure}[hbt]
+   \begin{center}
+     \includegraphics[width=30mm]{figure2.png}
+   \end{center}
+  \caption{Single Pass Compiler Process}
+  \label{fig-sysdesov}
+ \end{figure}
+ 
+\hspace{5mm}
+
 A multi pass compiler process, processes the source code through two phases: first pass  and second pass. The first pass includes a front end and analysis, performed by the lexical analyzer, syntax analyzer, semantic analyzer, resulting in the generation of intermediary code. The intermediary code is then passed on to the second pass. The second pass takes the IR code and performs the code optimization and code generation in the back end and synthesis, by converting the IR code appropriately to a desired low level language.[7] This means the analysis takes part in the front end pass one and the synthesis takes place in the back end of pass two. Resulting in the ability to separate the analysis of a high level code from the synthesis of the the low level code.
+
+\begin{figure}[hbt]
+   \begin{center}
+     \includegraphics[width=60mm]{figure3.png}
+   \end{center}
+  \caption{Multi Pass Compiler Process}
+  \label{fig-sysdesov}
+ \end{figure}
+ 
+\hspace{5mm}
 
 Multi-pass compilers increase the portability of the compiler due to the separation of the front end in the first pass and the back end in the second pass. It makes it possible to customize the compiler for one high level language to many different machines. Likewise, it is possible to customize many different high level languages to a single machine. For these reasons, the AGC will be designed as a multi-pass compiler.
 
@@ -140,7 +166,7 @@ The proposed compiler will use Flex for lexical analysis, Bison for semantic par
 
 \begin{figure}[hbt]
    \begin{center}
-     \includegraphics[width=110mm]{figure1.png}
+     \includegraphics[width=170mm]{figure1.png}
    \end{center}
   \caption{System design overview}
   \label{fig-sysdesov}
@@ -168,7 +194,9 @@ An essential component of the runtime system is an abstract machine, which provi
 
 \subsection{Testing}
 
-Focus on functionality
+The primary focus of the testing will be on the compilation functionality. Our tests primary focus: validate the proper machine code generation, and the insurance that machine code generated is according to the initial entry language specifications. In order to accomplish these primary objectives a sizable set of small programs that demonstrate unique aspects of the AGP paradigm constitute a regression test suite. This regression test suite will then be the confirmation of the compiler creation progress if each iteration of the compiler passes  the tests.
+This testing method can be considered to fall under the black box method of testing due to the prioritization of system function and results, rather than a focus of optimization that would occur if we were to do white box testing.
+
 
 \section{How the Project Relates to our Degrees}
 
@@ -188,31 +216,134 @@ Designing a compiler is a project based on software and computer knowledge. To u
 
 In the design phase of the compiler, several choices have to be made about what software is best suited for our objective. 
 
+\hspace{5mm}
+
 One of the tools required for implementing the compiler is a lexer / scanner that converts the source text into tokens. Although possible to create our own from scratch, this would be infeasible given the timeline of the project. There are benefits of using aged and proven software that would generate and compile AGP much faster (and with fewer bugs) than we could ever create on our own. This leaves us to choose from available lexical analyzer generators, which will generate the lexers according to the regular expressions defined in AGP.
 
-Lexer Generators:
-Flex - generates parsers that are LALR, “a rewrite of lex intended to fix some of that tool’s many bugs and deficiencies.” [Page 17 Flex \& Bison]
-Lex - predecessor to Flex, also LALR
+\hspace{5mm}
+
+\begin{center}
+\begin{tabular}{ |c | c|  }
+ \hline
+ Lexer Generators & Notes \\
+ \hline 
+ Flex & Generates parsers that are Look-Ahead Left to Right, or simply,\\ 
+ 	  &
+ LALR, "a rewrite of lex intended to fix some of that tool's many bugs \\
+ 	  &
+ and deficiencies." [Page 17 Flex \& Bison] \\ 
+ \hline 
+ Lex & predecessor to Flex, also LALR \\
+ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+Table 1: Lexer generator options
+\end{center}
+
+\hspace{5mm}
 
 Of the two, we choose to use Flex as it is newer, more readily available, has many bugs fixed from its predecessor, and is well suited to meet our objective. 
 
+\hspace{5mm}
+
 Another tool required for the compiler is a parser to take the tokens generated from the lexer and to output an abstract syntax tree (AST). Once again a parser could be created by hand, but there are plenty of parser generators such as BISON, YACC, and ANTLR.
 
-Parser Generators:
-Bison - newer version of Yacc, generates parsers that are LALR. No GUI, but smaller memory requirements.
-Yacc - older version of Bison, also LALR
-Antlr - alternative, generates parser that are LL. This may lead to issues with handling grammar. Generally considered easier to use over Yacc/Bison. Uses more memory, but has a GUI.
+\hspace{5mm}
+
+\begin{center}
+\begin{tabular}{ |c | c|  }
+ \hline
+ Parser Generators & Notes \\
+ \hline 
+ Bison & Newer version of Yacc, generates parsers that are LALR. No GUI,\\
+       & but smaller memory requirements \\
+ \hline 
+ Yacc & Older version of Bison, also LALR \\
+ \hline
+ Antlr & Alternative, generates parser that are Left to Right, or  LL.\\
+       & This may lead to issues with handling grammar. Generally \\
+       & considered easier to use over Yacc/Bison. Uses more memory,\\
+       & but has a GUI. \\
+ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+Table 2: Parser generator options
+\end{center}
+
+\hspace{5mm}
+
 
 Of the three, we choose to use Bison, for many of the same reasons as we chose Flex. Bison is a newer and improved version of Yacc, and while it may be considered slightly harder to use over ANTLR, we feel that the memory advantage and Bison’s grammar handling will prove to be better suited for this project.
 
+\hspace{5mm}
+
  LLVM will be used to construct, optimize and produce intermediate representation code which will then be translated into machine code. LLVM will act as a compiler framework, with a given front end composed of a parser and lexer from the Flex, Bison, and back end IR translator. Requirements Analysis will be used to define and analyze functional and nonfunctional requirements of the compiler system. With proper Requirements Analysis done prior to the project inception the compiler design and creation will be more seamless allowing for less re-work. 
+ 
+\hspace{5mm}
 
 Black box testing will be used to test the functionality of the program. W
 
 
 \section{Timetable with Milestones}
 
+\hspace{5mm}
 
+\begin{center}
+\begin{tabular}{ |c | c | c|  }
+ \hline
+ \textbf{Task} & \textbf{Expected Completion Date} & \textbf{Notes} \\
+ \hline 
+ Research & September - October &  \\
+ \hline 
+ Design & Early November (Nov 7th)  & System architecture. \\
+ \hline
+ Prototype & Late November (Nov 28th) & Exploring LLVM, Flex, Bison, setting up development \\
+ 	    & & environments \\
+ \hline
+ Testing & From Iteration 1 to Iteration 3 & Black box testing. \\
+ \hline
+ Progress Report & Jan 20th & Implementing a barebones compiler, likely\\
+ 		 & & with missing functionality, intended to test the design \\
+ 		 & & and method choices selected in the progress report.\\
+ \hline
+ Iteration 1 & Dec 12th  & Finish Iteration 1 before progress report, \\
+ 		 & & include results in report\\
+ \hline
+ Iteration 2 & Jan 15th & Having learned what methods work from Iteration 1, \\
+ 		 & & the team will refine the design and implementation of \\ 		             		 & & the AGC system for better functionality, attempting \\
+ 		 & & to complete more compilation steps.\\
+ \hline
+ Iteration Final & Mar 15th & Improving on Iteration 2, at this point the design\\
+ 		 & & and implementation should be very familiar, with\\
+ 		 & & few/no bugs and a high degree of functionality in \\
+ 		 & & the system. Extensive documentation (diagrams, \\
+ 		 & & comments) will be done, as well as rigorous testing, \\
+ 		 & & to ensure a quality system.\\
+ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+Table 3: Task Scheduling
+\end{center}
+
+\pagebreak
+
+\hspace{5mm}
+
+\begin{figure}[hbt]
+   \begin{center}
+     \includegraphics[width=170mm]{ganttchart.png}
+   \end{center}
+  \caption{Gantt Chart}
+  \label{fig-sysdesov}
+ \end{figure}
+ 
+ \hspace{5mm}
 
 \subsection{Communication}
 
@@ -262,17 +393,17 @@ S. Marlow, "Fighting spam with Haskell - Facebook Engineering", Facebook Enginee
 T. Avacheva and A. Prutzkow, “The Evolution of Imperative Programming Paradigms as a Search for New Ways to Reduce Code Duplication,” IOP Conference Series: Materials Science and Engineering, vol. 714, p. 012001, 2020.
 
 \bibitem{}
-https://www.cs.cmu.edu/~aplatzer/course/Compilers/waitegoos.pdf
+W. M. Waite, G. Goos, “Compiler Construction”, Karlsruhe 22nd February 1996, [Online] Available: https://www.cs.cmu.edu/~aplatzer/course/Compilers/waitegoos.pdf, p. 1-9
 
 \bibitem{}
-J. Levine,  Levine - lex \& yacc. Sebastopol, CA: O’Reilly 1992
+A. V. Aho, M. S. Lam, R. Sethi, and J. D. Ullman, Compilers: principles, techniques, and tools. India: Pearson India Education Services, 2015, p. 2-3
 
 \bibitem{}
 S. Diehl, P. Hartel, and P. Sestoft, “ Abstract machines for programming language implementation” Future Generation Computer Systems 2000
 
 
 \bibitem{}
-A. V. Aho, M. S. Lam, R. Sethi, and J. D. Ullman, Compilers: principles, techniques, and tools. India: Pearson India Education Services, 2015, p. 2-3
+J. Levine,  Levine - lex \& yacc. Sebastopol, CA: O’Reilly 1992
 
 
 

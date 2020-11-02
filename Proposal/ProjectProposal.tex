@@ -12,6 +12,8 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 
+\setlength{\parskip}{1em}
+
 
 \begin{document}
 
@@ -127,6 +129,7 @@ A compiler has two major components, Analysis and Synthesis. The analysis determ
 
 There are two variations of compilation passing: single and multi-pass compilers. A single pass compiler passes information through each phase of compiler design in a singular process. This would take a high level language, pass it through a lexical analyzer, syntax analyzer, semantic analyzer, generate intermediate code, optimize code, and then generate low level code custom for the initial high level code entered. This means the analysis and synthesis is strictly custom for each input high level code and low level code pair.[7] 
 
+\pagebreak
 
 \begin{figure}[hbt]
    \begin{center}
@@ -135,10 +138,10 @@ There are two variations of compilation passing: single and multi-pass compilers
   \caption{Single Pass Compiler Process}
   \label{fig-sysdesov}
  \end{figure}
- 
-\hspace{5mm}
 
 A multi pass compiler process, processes the source code through two phases: first pass  and second pass. The first pass includes a front end and analysis, performed by the lexical analyzer, syntax analyzer, semantic analyzer, resulting in the generation of intermediary code. The intermediary code is then passed on to the second pass. The second pass takes the IR code and performs the code optimization and code generation in the back end and synthesis, by converting the IR code appropriately to a desired low level language.[7] This means the analysis takes part in the front end pass one and the synthesis takes place in the back end of pass two. Resulting in the ability to separate the analysis of a high level code from the synthesis of the the low level code.
+
+\pagebreak
 
 \begin{figure}[hbt]
    \begin{center}
@@ -148,7 +151,6 @@ A multi pass compiler process, processes the source code through two phases: fir
   \label{fig-sysdesov}
  \end{figure}
  
-\hspace{5mm}
 
 Multi-pass compilers increase the portability of the compiler due to the separation of the front end in the first pass and the back end in the second pass. It makes it possible to customize the compiler for one high level language to many different machines. Likewise, it is possible to customize many different high level languages to a single machine. For these reasons, the AGC will be designed as a multi-pass compiler.
 
@@ -206,7 +208,6 @@ In SYSC 3120, we learned about requirements engineering. The background of this 
 
 	All these classes taken over the course of our university education play a role in the development, implementation, and testing of the AGC project.
 
-
 \section{Skills we have to Complete Project}
 
 Designing a compiler is a project based on software and computer knowledge. To undertake this project a solid understanding of requirements elicitation, software design, communication and research skills, software testing, and programming are required.  All team members are 4th year Software Engineering undergraduate students equipped with a suitable background for this project. Numerous courses have focused on the software design process, which have provided the skills needed to generate requirements, build models such as UML, use these models for implementation, and then to create well-built tests for verification of the system. All team members are familiar with version-control systems such as Git, and communication and research skills have been obtained and refined through courses such as CCDP 2100 and SYSC 3110, as well as through participation in many group projects. Majority of programming for this project will be done using C in the linux environment, which all team members have a strong understanding of from project and work experience.
@@ -216,14 +217,10 @@ Designing a compiler is a project based on software and computer knowledge. To u
 
 In the design phase of the compiler, several choices have to be made about what software is best suited for our objective. 
 
-\hspace{5mm}
-
 One of the tools required for implementing the compiler is a lexer / scanner that converts the source text into tokens. Although possible to create our own from scratch, this would be infeasible given the timeline of the project. There are benefits of using aged and proven software that would generate and compile AGP much faster (and with fewer bugs) than we could ever create on our own. This leaves us to choose from available lexical analyzer generators, which will generate the lexers according to the regular expressions defined in AGP.
 
-\hspace{5mm}
-
 \begin{center}
-\begin{tabular}{ |c | c|  }
+\begin{tabular}{ |l | l|  }
  \hline
  Lexer Generators & Notes \\
  \hline 
@@ -242,18 +239,12 @@ One of the tools required for implementing the compiler is a lexer / scanner tha
 Table 1: Lexer generator options
 \end{center}
 
-\hspace{5mm}
-
 Of the two, we choose to use Flex as it is newer, more readily available, has many bugs fixed from its predecessor, and is well suited to meet our objective. 
-
-\hspace{5mm}
 
 Another tool required for the compiler is a parser to take the tokens generated from the lexer and to output an abstract syntax tree (AST). Once again a parser could be created by hand, but there are plenty of parser generators such as BISON, YACC, and ANTLR.
 
-\hspace{5mm}
-
 \begin{center}
-\begin{tabular}{ |c | c|  }
+\begin{tabular}{ |l | l|  }
  \hline
  Parser Generators & Notes \\
  \hline 
@@ -274,26 +265,17 @@ Another tool required for the compiler is a parser to take the tokens generated 
 Table 2: Parser generator options
 \end{center}
 
-\hspace{5mm}
-
-
 Of the three, we choose to use Bison, for many of the same reasons as we chose Flex. Bison is a newer and improved version of Yacc, and while it may be considered slightly harder to use over ANTLR, we feel that the memory advantage and Bison’s grammar handling will prove to be better suited for this project.
 
-\hspace{5mm}
-
  LLVM will be used to construct, optimize and produce intermediate representation code which will then be translated into machine code. LLVM will act as a compiler framework, with a given front end composed of a parser and lexer from the Flex, Bison, and back end IR translator. Requirements Analysis will be used to define and analyze functional and nonfunctional requirements of the compiler system. With proper Requirements Analysis done prior to the project inception the compiler design and creation will be more seamless allowing for less re-work. 
- 
-\hspace{5mm}
 
 Black box testing will be used to test the functionality of the program. W
 
 
 \section{Timetable with Milestones}
 
-\hspace{5mm}
-
 \begin{center}
-\begin{tabular}{ |c | c | c|  }
+\begin{tabular}{ |l | l | l|  }
  \hline
  \textbf{Task} & \textbf{Expected Completion Date} & \textbf{Notes} \\
  \hline 
@@ -333,8 +315,6 @@ Table 3: Task Scheduling
 
 \pagebreak
 
-\hspace{5mm}
-
 \begin{figure}[hbt]
    \begin{center}
      \includegraphics[width=170mm]{ganttchart.png}
@@ -342,8 +322,6 @@ Table 3: Task Scheduling
   \caption{Gantt Chart}
   \label{fig-sysdesov}
  \end{figure}
- 
- \hspace{5mm}
 
 \subsection{Communication}
 

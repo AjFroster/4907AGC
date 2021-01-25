@@ -33,11 +33,17 @@ STRING		\"{print}*\"
 <ML_COMMENT>"\n"							{ lineno += 1; }
 
 
-"op_IF"										{ ret_print("KEYWORD_IF"); }
-"op_ELSE"									{ ret_print("KEYWORD_ELSE"); }
-"op_MERGE"									{ ret_print("KEYWORD_MERGE"); }	
-"op_EXPANSION"								{ ret_print("KEYWORD_EXPANSION"); }					
-
+"op_IF"										{ ret_print("TOKEN_IF"); }
+"op_ELSE"									{ ret_print("TOKEN_ELSE"); }
+"op_MERGE"									{ ret_print("TOKEN_MERGE"); }	
+"op_EXPANSION"								{ ret_print("TOKEN_EXPANSION"); }		
+"DATUM"										{ ret_print("TOKEN_DATUM"); }
+"OPERATOR"									{ ret_print("TOKEN_OPERATOR"); }
+"SUBGRAPH"									{ ret_print("TOKEN_SUBGRAPH"); }
+"INPUT"										{ ret_print("TOKEN_INPUT"); }
+"OUTPUT"									{ ret_print("TOKEN_OUTPUT"); } 	
+"CONST"										{ ret_print("TOKEN_CONST"); }	
+		
 "op_INPUT"|"op_OUTPUT"						{ ret_print("IOOP"); }
 "op_PLUS"									{ ret_print("ADDOP"); }
 "op_TIMES"									{ ret_print("MULOP"); }

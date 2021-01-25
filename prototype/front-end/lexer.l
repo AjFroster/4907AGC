@@ -4,6 +4,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
+	#include "parser.tab.h"
 	int lineno = 1; // initialize to 1
 	void ret_print(char *token_type);
 	void yyerror();
@@ -33,42 +34,43 @@ STRING		\"{print}*\"
 <ML_COMMENT>"\n"							{ lineno += 1; }
 
 
-"op_IF"										{ ret_print("TOKEN_IF"); }
-"op_ELSE"									{ ret_print("TOKEN_ELSE"); }
-"op_MERGE"									{ ret_print("TOKEN_MERGE"); }	
-"op_EXPANSION"								{ ret_print("TOKEN_EXPANSION"); }		
-"DATUM"										{ ret_print("TOKEN_DATUM"); }
-"OPERATOR"									{ ret_print("TOKEN_OPERATOR"); }
-"SUBGRAPH"									{ ret_print("TOKEN_SUBGRAPH"); }
-"INPUT"										{ ret_print("TOKEN_INPUT"); }
-"OUTPUT"									{ ret_print("TOKEN_OUTPUT"); } 	
-"CONST"										{ ret_print("TOKEN_CONST"); }	
+"op_IF"										{ return TOKEN_IF; }
+"op_ELSE"									{ return TOKEN_ELSE; }
+"op_MERGE"									{ return TOKEN_MERGE; }	
+"op_EXPANSION"								{ return TOKEN_EXPANSION; }
+"EXPAND"									{ return TOKEN_EXPAND; }
+"DATUM"										{ return TOKEN_DATUM; }
+"OPERATOR"									{ return TOKEN_OPERATOR; }
+"SUBGRAPH"									{ return TOKEN_SUBGRAPH; }
+"INPUT"										{ return TOKEN_INPUT; }
+"OUTPUT"									{ return TOKEN_OUTPUT; } 	
+"CONST"										{ return TOKEN_CONST; }	
+"MAP_IN"									{ return TOKEN_MAPIN; }	
+"MAP_OUT"									{ return TOKEN_MAPOUT; }	
 		
-"op_INPUT"|"op_OUTPUT"						{ ret_print("IOOP"); }
-"op_PLUS"									{ ret_print("ADDOP"); }
-"op_TIMES"									{ ret_print("MULOP"); }
-"op_MINUS"									{ ret_print("SUBOP"); }
-"op_ISEQUAL"|"op_ISLESS"|"op_ISGREATER" 	{ ret_print("RELOP"); }
-"MAP_IN"|"MAP_OUT"							{ ret_print("MAPOP"); }
+"op_INPUT"									{ return IOP; }
+"op_OUTPUT"									{ return OOP; }
+"op_PLUS"									{ return ADDOP; }
+"op_TIMES"									{ return MULOP; }
+"op_MINUS"									{ return SUBOP; }
+"op_ISEQUAL"|"op_ISLESS"|"op_ISGREATER" 	{ return RELOP; }
+
+"("											{ return LPAR; }
+")"											{ return RPAR; }
+"]"											{ return RBRACK; }
+"["											{ return LBRACK; }
+"{"											{ return LBRACE; }
+"}"											{ return RBRACE; }
+";"											{ return SEMI; }
+"."											{ return DOT; }
+","											{ return COMMA; }
 
 
-
-"("											{ ret_print("LPAREN"); }
-")"											{ ret_print("RPAREN"); }
-"]"											{ ret_print("RBRACK"); }
-"["											{ ret_print("LBRACK"); }
-"{"											{ ret_print("LBRACE"); }
-"}"											{ ret_print("RBRACE"); }
-";"											{ ret_print("SEMI"); }
-"."											{ ret_print("DOT"); }
-","											{ ret_print("COMMA"); }
-
-
-{ID} 										{ ret_print("ID"); }
-{ICONST} 									{ ret_print("ICONST"); }
-{FCONST} 									{ ret_print("FCONST"); }
-{CCONST} 									{ ret_print("CCONST"); }
-{STRING} 									{ ret_print("STRING"); }
+{ID} 										{ return ID; }
+{ICONST} 									{ return ICONST; }
+{FCONST} 									{ return FCONST; }
+{CCONST} 									{ return CCONST; }
+{STRING} 									{ return STRING; }
 
 
 "\n"										{ lineno += 1; }
@@ -77,19 +79,3 @@ STRING		\"{print}*\"
 .											{ yyerror("Unrecognized character"); }
 
 %%
-
-void ret_print(char *token_type){
-	printf("yytext: %s\ttoken: %s\tlineno: %d\n", yytext, token_type, lineno);
-}
-
-void yyerror(char *message){
-	printf("Error: \"%s\" in line %d. Token = %s\n", message, lineno, yytext);
-	exit(1);
-}
-
-int main(int argc, char *argv[]){
-	yyin = fopen(argv[1], "r");
-	yylex();
-	fclose(yyin);
-	return 0;
-}

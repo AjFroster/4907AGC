@@ -1,0 +1,31 @@
+//example agp program that calculates a factorial
+
+SUBGRAPH(fact)
+		DATUM(x);
+    INPUT(x);
+    DATUM(result);
+    OUTPUT(result);
+    DATUM(resulttrue);
+    DATUM(resultfalse);
+    DATUM(xis0);
+    DATUM(iter);
+    DATUM(nextiter);
+    DATUM(xminus1);
+    DATUM(xminus1cond);
+    CONST(zero,0);
+    CONST(one,1);
+    OPERATOR(xis0,op_ISEQUAL,x,zero);
+    OPERATOR(resulttrue,op_IF,xis0,one);
+    OPERATOR(resultfalse,op_ELSE,xis0,iter);
+    OPERATOR(iter,op_TIMES,x,nextiter);
+    EXPAND(fact,MAP_IN(x,xminus1cond);MAP_OUT(result,nextiter););
+    OPERATOR(result,op_MERGE,resulttrue,resultfalse);
+    OPERATOR(xminus1,op_MINUS,x,one);
+    OPERATOR(xminus1cond,op_ELSE,xis0,xminus1);
+
+  SUBGRAPH(main)
+		DATUM(x);
+		DATUM(y);
+		INPUT(x);
+    EXPAND(fact,MAP_IN(x,x);MAP_OUT(result,y););
+    OUTPUT(y);

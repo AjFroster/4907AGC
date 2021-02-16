@@ -1,5 +1,5 @@
 ## Files needed
-- lexer.l - the rules for AGP scanning
+- lexer.l - the rules for AGP scanning. Contains an include to parser.tab.h.
 - parser.y  - the rules AGP parsing
 - symbol_table.c  
 - tb_symbol_table.c

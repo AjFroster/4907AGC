@@ -1,6 +1,6 @@
 ## Files needed
-- lexer.l - the rules for our scanning
-- parser.y  - the rules for parsing
+- lexer.l - the rules for AGP scanning
+- parser.y  - the rules AGP parsing
 - symbol_table.c  
 - tb_symbol_table.c
 - example_agp - example code to give to the AGP compiler

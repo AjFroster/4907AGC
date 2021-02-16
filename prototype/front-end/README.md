@@ -1,9 +1,9 @@
 ## Files needed
-- lexer.l
-- parser.y
-- symbol_table.c
+- lexer.l                | the rules for our scanning
+- parser.y               | the rules for parsing
+- symbol_table.c         | symbol table 
 - tb_symbol_table.c
-- example_agp
+- example_agp            | example code to give to the AGP compiler
 
 ## To build and run
 1. $ flex lexer.l                                    

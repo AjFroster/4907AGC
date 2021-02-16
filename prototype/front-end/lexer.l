@@ -4,7 +4,11 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
+	#include "symboltable.h"
 	#include "parser.tab.h"
+	extern FILE *yyin;
+	extern FILE *yyout;
+
 	int lineno = 1; // initialize to 1
 	void ret_print(char *token_type);
 	void yyerror();
@@ -66,12 +70,16 @@ STRING		\"{print}*\"
 ","											{ return COMMA; }
 
 
-{ID} 										{ return ID; }
-{ICONST} 									{ return ICONST; }
-{FCONST} 									{ return FCONST; }
-{CCONST} 									{ return CCONST; }
-{STRING} 									{ return STRING; }
-
+{ID} 										{ 
+											insert(yytext, strlen(yytext), UNDEF, lineno);
+											yylval.symtab_item = lookup(yytext);
+											return ID; 
+											}
+{ICONST}    								{ yylval.int_val   = atoi(yytext); return ICONST; }
+{FCONST}    								{ yylval.double_val = atof(yytext); return FCONST; }
+{CCONST}    								{ yylval.char_val  = yytext[0];    return CCONST; }
+{STRING}    								{ yylval.str_val = malloc(yyleng * sizeof(char));
+								              strcpy(yylval.str_val, yytext);  return STRING; }
 
 "\n"										{ lineno += 1; }
 [ \t\r\f]+									/* eat up whitespace */

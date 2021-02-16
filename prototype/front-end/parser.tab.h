@@ -97,7 +97,20 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 15 "parser.y"
+
+	char char_val;
+	int int_val;
+	double double_val;
+	char * str_val;
+	list_t * symtab_item;
+
+#line 111 "parser.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

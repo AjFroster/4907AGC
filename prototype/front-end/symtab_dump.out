@@ -1,0 +1,17 @@
+------------ ------ ------------
+Name         Type   Line Numbers
+------------ ------ -------------
+iter         undef    11   19   20 
+zero         undef    15   17 
+result       undef     6    7   21   22   30 
+nextiter     undef    12   20   21 
+resulttrue   undef     8   18   22 
+xminus1cond  undef    14   21   24 
+xminus1      undef    13   23   24 
+one          undef    16   18   23 
+x            undef     4    5   17   20   21   23   27   29   30   30 
+y            undef    28   30   31 
+resultfalse  undef     9   19   22 
+xis0         undef    10   17   18   19   24 
+fact         undef     3   21   30 
+main         undef    26 

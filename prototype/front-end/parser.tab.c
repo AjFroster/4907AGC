@@ -68,6 +68,8 @@
 /* First part of user prologue.  */
 #line 1 "parser.y"
 
+
+	#include "symboltable.c"	
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -77,7 +79,7 @@
 	extern int yylex();
 	void yyerror();
 
-#line 81 "parser.tab.c"
+#line 83 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -173,7 +175,20 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 15 "parser.y"
+
+	char char_val;
+	int int_val;
+	double double_val;
+	char * str_val;
+	list_t * symtab_item;
+
+#line 189 "parser.tab.c"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -550,8 +565,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    39,    39,    39,    41,    43,    43,    45,    46,    47,
-      48,    49,    50,    51,    52,    53,    54,    55,    56
+       0,    49,    49,    49,    51,    53,    53,    55,    56,    57,
+      58,    59,    60,    61,    62,    63,    64,    65,    66
 };
 #endif
 
@@ -1401,7 +1416,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1405 "parser.tab.c"
+#line 1420 "parser.tab.c"
 
       default: break;
     }
@@ -1633,7 +1648,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 58 "parser.y"
+#line 68 "parser.y"
 
 
 void yyerror ()
@@ -1644,6 +1659,8 @@ void yyerror ()
 
 int main (int argc, char *argv[]){
 
+	// initialize symbol table
+	init_hash_table();
 
 	// parsing
 	int flag;
@@ -1653,5 +1670,10 @@ int main (int argc, char *argv[]){
 	
 	printf("Parsing finished!\n");
 	
+	// symbol table dump
+	yyout = fopen("symtab_dump.out", "w");
+	symtab_dump(yyout);
+	fclose(yyout);
+
 	return flag;
 }

@@ -1,4 +1,6 @@
 %{
+
+	#include "symboltable.c"	
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -9,6 +11,14 @@
 	void yyerror();
 %}
 
+/* YYSTYPE union */
+%union{
+	char char_val;
+	int int_val;
+	double double_val;
+	char * str_val;
+	list_t * symtab_item;
+}
 
 /* token definition */
 %token TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST
@@ -65,6 +75,8 @@ void yyerror ()
 
 int main (int argc, char *argv[]){
 
+	// initialize symbol table
+	init_hash_table();
 
 	// parsing
 	int flag;
@@ -74,5 +86,10 @@ int main (int argc, char *argv[]){
 	
 	printf("Parsing finished!\n");
 	
+	// symbol table dump
+	yyout = fopen("symtab_dump.out", "w");
+	symtab_dump(yyout);
+	fclose(yyout);
+
 	return flag;
 }

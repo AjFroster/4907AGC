@@ -1,6 +1,5 @@
 %{
 	#include "symboltable.c"	
-	#include "symboltable.c"
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -18,7 +17,6 @@
 	double double_val;
 	char * str_val;
 	list_t * symtab_item;
-}
 	char* str_val;
 	list_t* symtab_item;
 }

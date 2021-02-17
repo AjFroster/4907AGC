@@ -71,6 +71,7 @@ void symtab_dump(FILE * of){
 			fprintf(of,"%-7s","undef"); // if UNDEF or 0
 			while (t != NULL){
 				fprintf(of,"%4d ",t->lineno);
+<<<<<<< HEAD
 				t = t->next;
 			}
 			fprintf(of,"\n");
@@ -79,3 +80,44 @@ void symtab_dump(FILE * of){
     }
   }
 }
+=======
+			t = t->next;
+			}
+			fprintf(of,"\n");
+			l = l->next;
+			
+			/*
+			if (l->st_type == INT_TYPE) fprintf(of,"%-7s","int");
+			else if (l->st_type == REAL_TYPE) fprintf(of,"%-7s","real");
+			else if (l->st_type == STR_TYPE) fprintf(of,"%-7s","string");
+			else if (l->st_type == ARRAY_TYPE){
+				fprintf(of,"array of ");
+				if (l->inf_type == INT_TYPE) 		   fprintf(of,"%-7s","int");
+				else if (l->inf_type  == REAL_TYPE)    fprintf(of,"%-7s","real");
+				else if (l->inf_type  == STR_TYPE) 	   fprintf(of,"%-7s","string");
+				else fprintf(of,"%-7s","undef");
+			}
+			else if (l->st_type == FUNCTION_TYPE){
+				fprintf(of,"%-7s %s","function returns ");
+				if (l->inf_type == INT_TYPE) 		   fprintf(of,"%-7s","int");
+				else if (l->inf_type  == REAL_TYPE)    fprintf(of,"%-7s","real");
+				else if (l->inf_type  == STR_TYPE) 	   fprintf(of,"%-7s","string");
+				else fprintf(of,"%-7s","undef");
+			}
+			else fprintf(of,"%-7s","undef"); // if UNDEF or 0
+			while (t != NULL){
+				fprintf(of,"%4d ",t->lineno);
+			t = t->next;
+			}
+			fprintf(of,"\n");
+			l = l->next;
+			*/
+		}
+    }
+  }
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6

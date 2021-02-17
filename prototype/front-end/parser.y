@@ -1,6 +1,13 @@
 %{
+<<<<<<< HEAD
 
 	#include "symboltable.c"	
+=======
+<<<<<<< HEAD
+	#include "symboltable.c"
+=======
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -11,14 +18,26 @@
 	void yyerror();
 %}
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
 /* YYSTYPE union */
 %union{
 	char char_val;
 	int int_val;
 	double double_val;
+<<<<<<< HEAD
 	char * str_val;
 	list_t * symtab_item;
 }
+=======
+	char* str_val;
+	list_t* symtab_item;
+}
+=======
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
 
 /* token definition */
 %token TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST
@@ -75,8 +94,16 @@ void yyerror ()
 
 int main (int argc, char *argv[]){
 
+<<<<<<< HEAD
 	// initialize symbol table
 	init_hash_table();
+=======
+<<<<<<< HEAD
+	// initialize symbol table
+	init_hash_table();
+=======
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
 
 	// parsing
 	int flag;
@@ -86,10 +113,19 @@ int main (int argc, char *argv[]){
 	
 	printf("Parsing finished!\n");
 	
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
 	// symbol table dump
 	yyout = fopen("symtab_dump.out", "w");
 	symtab_dump(yyout);
 	fclose(yyout);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f
+>>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
 	return flag;
 }

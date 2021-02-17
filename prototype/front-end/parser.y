@@ -17,8 +17,6 @@
 	double double_val;
 	char * str_val;
 	list_t * symtab_item;
-	char* str_val;
-	list_t* symtab_item;
 }
 
 

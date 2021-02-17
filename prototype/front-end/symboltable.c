@@ -105,4 +105,8 @@ void symtab_dump(FILE * of){
 		}
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f

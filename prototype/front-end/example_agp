@@ -29,4 +29,7 @@ SUBGRAPH(fact)
 		INPUT(x);
     EXPAND(fact,MAP_IN(x,x);MAP_OUT(result,y););
     OUTPUT(y);
+<<<<<<< HEAD
     
+=======
+>>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f

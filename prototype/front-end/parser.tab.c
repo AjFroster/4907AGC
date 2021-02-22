@@ -69,17 +69,19 @@
 #line 1 "parser.y"
 
 
-	#include "symboltable.c"	
+	#include "ast.c"	
+	#include "symboltable.c"
 	#include <stdio.h>
 	#include <stdlib.h>
-	#include <string.h>
+	#include <string.h>	
+	
 	extern FILE *yyin;
 	extern FILE *yyout;
 	extern int lineno;
 	extern int yylex();
 	void yyerror();
 
-#line 83 "parser.tab.c"
+#line 85 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -177,15 +179,25 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "parser.y"
+#line 17 "parser.y"
 
 	char char_val;
 	int int_val;
 	double double_val;
 	char * str_val;
+	
+	//symbol table and ast structures
 	list_t * symtab_item;
+	AST_Node* node;
+	
+	// for declarations
+	int data_type;
+	int const_type;
+	
+	// for arrays
+	int array_size;
 
-#line 189 "parser.tab.c"
+#line 201 "parser.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -565,8 +577,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    49,    49,    49,    51,    53,    53,    55,    56,    57,
-      58,    59,    60,    61,    62,    63,    64,    65,    66
+       0,    69,    69,    70,    72,    74,    75,    77,    78,    79,
+      80,    81,    82,    83,    84,    85,    86,    87,    88
 };
 #endif
 
@@ -1416,7 +1428,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1420 "parser.tab.c"
+#line 1432 "parser.tab.c"
 
       default: break;
     }
@@ -1648,7 +1660,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 68 "parser.y"
+#line 90 "parser.y"
 
 
 void yyerror ()

@@ -1,9 +1,11 @@
 %{
 
-	#include "symboltable.c"	
+	#include "ast.c"	
+	#include "symboltable.c"
 	#include <stdio.h>
 	#include <stdlib.h>
-	#include <string.h>
+	#include <string.h>	
+	
 	extern FILE *yyin;
 	extern FILE *yyout;
 	extern int lineno;
@@ -17,7 +19,17 @@
 	int int_val;
 	double double_val;
 	char * str_val;
+	
+	//symbol table and ast structures
 	list_t * symtab_item;
+	AST_Node* node;
+	
+	// for declarations
+	int data_type;
+	int const_type;
+	
+	// for arrays
+	int array_size;
 }
 
 /* token definition */
@@ -39,6 +51,14 @@
 %right ASSIGN
 %left COMMA
 
+/* non terminal symbol definitions (syntax used in grammar prodouctions)*/
+%type <node> program
+%type <node> subgraph;
+//%type <data_type> type
+//%type <symtab_item> variable
+//%type <array_size> array
+//%type <symtab_item> init var_init array_init
+//%type <node> constant
 
 %start program
 
@@ -46,24 +66,26 @@
 
 %%
 
-program: subgraph | subgraph program;
+program: subgraph
+	| subgraph program;
 
 subgraph: TOKEN_SUBGRAPH LPAR ID RPAR instructions;
 
-instructions: instruction | instructions instruction;
+instructions: instruction 
+	    | instructions instruction;
 
 instruction: TOKEN_DATUM LPAR ID RPAR SEMI
-				| TOKEN_OUTPUT LPAR ID RPAR SEMI
-				| TOKEN_INPUT LPAR ID RPAR SEMI
-				| TOKEN_CONST LPAR ID COMMA ICONST RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+	| TOKEN_OUTPUT LPAR ID RPAR SEMI
+	| TOKEN_INPUT LPAR ID RPAR SEMI
+	| TOKEN_CONST LPAR ID COMMA ICONST RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
+	| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
 
 %%
 

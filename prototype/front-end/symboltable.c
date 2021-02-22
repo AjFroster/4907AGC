@@ -71,8 +71,7 @@ void symtab_dump(FILE * of){
 			fprintf(of,"%-7s","undef"); // if UNDEF or 0
 			while (t != NULL){
 				fprintf(of,"%4d ",t->lineno);
-<<<<<<< HEAD
-				t = t->next;
+			t = t->next;
 			}
 			fprintf(of,"\n");
 			l = l->next;	
@@ -80,11 +79,7 @@ void symtab_dump(FILE * of){
     }
   }
 }
-=======
-			t = t->next;
-			}
-			fprintf(of,"\n");
-			l = l->next;
+
 			
 			/*
 			if (l->st_type == INT_TYPE) fprintf(of,"%-7s","int");
@@ -112,12 +107,5 @@ void symtab_dump(FILE * of){
 			fprintf(of,"\n");
 			l = l->next;
 			*/
-		}
-    }
-  }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 10550545bb746e667bf7a40ab38cc61e28b0b35f
->>>>>>> 4ee175b10d8d0572e36b9d8b0629aa027697b1c6
+
+

@@ -1,5 +1,5 @@
 %{
-	#include "symboltable.c"
+	#include "symboltable.c"	
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -15,9 +15,10 @@
 	char char_val;
 	int int_val;
 	double double_val;
-	char* str_val;
-	list_t* symtab_item;
+	char * str_val;
+	list_t * symtab_item;
 }
+
 
 /* token definition */
 %token TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST
@@ -73,6 +74,8 @@ void yyerror ()
 }
 
 int main (int argc, char *argv[]){
+	// initialize symbol table
+	init_hash_table();
 
 	// initialize symbol table
 	init_hash_table();
@@ -89,6 +92,5 @@ int main (int argc, char *argv[]){
 	yyout = fopen("symtab_dump.out", "w");
 	symtab_dump(yyout);
 	fclose(yyout);
-
 	return flag;
 }

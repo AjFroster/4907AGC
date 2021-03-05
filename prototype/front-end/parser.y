@@ -112,7 +112,7 @@ int main (int argc, char *argv[]){
 	fclose(yyout);
 
 	// revisit queue dump
-	yyout = fopen("revist_dump.out", "w");
+	yyout = fopen("revisit_dump.out", "w");
 	revisit_dump(yyout);
 	fclose(yyout);
 

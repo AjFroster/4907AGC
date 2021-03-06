@@ -201,7 +201,7 @@ void add_to_queue(char *name) {
 	if(queue == NULL) {
 		/* set up entry */
 		q = (revisit_queue*) malloc(sizeof(revisit_queue));
-		q->st_name;
+		q->st_name = name;
 		q->next = NULL;
 		printf("Inserted %s into revisit queue\n", name);
 		queue = q;
@@ -218,6 +218,8 @@ void add_to_queue(char *name) {
 		printf("Inserted %s into revisit queue\n", name);
 	}
 }
+
+
 
 /* when an entry is revisited it is also removed from the queue */
 int revisit(char *name) {
@@ -249,8 +251,9 @@ int revisit(char *name) {
 	return 0; //success
 }
 
+
+
 void revisit_dump(FILE *of) {
-	int i;
 	revisit_queue *q;
 	q = queue;
 

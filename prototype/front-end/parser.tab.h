@@ -55,13 +55,13 @@ extern int yydebug;
     TOKEN_OPERATOR = 261,
     TOKEN_SUBGRAPH = 262,
     TOKEN_CONST = 263,
-    TOKEN_IF = 264,
-    TOKEN_ELSE = 265,
-    TOKEN_MERGE = 266,
-    TOKEN_EXPANSION = 267,
-    TOKEN_EXPAND = 268,
-    TOKEN_MAPIN = 269,
-    TOKEN_MAPOUT = 270,
+    TOKEN_EXPANSION = 264,
+    TOKEN_EXPAND = 265,
+    TOKEN_MAPIN = 266,
+    TOKEN_MAPOUT = 267,
+    TOKEN_IF = 268,
+    TOKEN_ELSE = 269,
+    TOKEN_MERGE = 270,
     IOP = 271,
     OOP = 272,
     ADDOP = 273,
@@ -99,25 +99,18 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "parser.y"
+#line 15 "parser.y"
 
 	char char_val;
 	int int_val;
 	double double_val;
-	char * str_val;
-	
-	//symbol table and ast structures
-	list_t * symtab_item;
-	AST_Node* node;
-	
-	// for declarations
-	int data_type;
-	int const_type;
-	
-	// for arrays
-	int array_size;
+	char* str_val;
 
-#line 121 "parser.tab.h"
+	//structures
+	list_t* symtab_item;
+	AST_Node* node; //worry about this when implementing AST
+
+#line 114 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

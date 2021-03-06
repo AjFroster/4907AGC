@@ -1,3 +1,8 @@
+#ifndef SYMTAB_H
+#define SYMTAB_H
+
+#include <stdio.h>
+
 /* max size of hash table */
 #define SIZE 211
 
@@ -17,7 +22,7 @@
 
 typedef struct Param{
 	char par_name[MAXTOKENLEN];
-	int ival;
+	int ival; char *st_sval;
 } Param;
 
 /* linked list of references for each identifier */
@@ -55,7 +60,7 @@ typedef struct revisit_queue {
 
 #define PARAM_CHECK 1 /* this is to check parameters of function call when functions get declared */
 
-/* hash table */
+/* hash table and revisity queue */
 static list_t **hash_table;
 static revisit_queue *queue;
 
@@ -80,3 +85,5 @@ int subgraph_param_check(char *name, Param *parameter);
 void add_to_queue(char *name);
 int revisit(char *name);
 void revisit_dump(FILE *of); 
+
+#endif

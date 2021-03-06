@@ -1,6 +1,6 @@
 %{
-	//#include "ast.h"
-	//#include "ast.c"
+	#include "ast.h"
+	#include "ast.c"
 	#include "symboltable.c"
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -76,6 +76,7 @@ instruction: TOKEN_DATUM LPAR ID RPAR SEMI
 				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
 				| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
 				| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
 				;
 
 %%

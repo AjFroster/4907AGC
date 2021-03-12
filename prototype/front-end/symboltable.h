@@ -1,7 +1,7 @@
-#ifndef SYMTAB_H
-#define SYMTAB_H
+//#ifndef SYMTAB_H
+//#define SYMTAB_H
 
-#include <stdio.h>
+//#include <stdio.h>
 
 /* max size of hash table */
 #define SIZE 211
@@ -19,11 +19,18 @@
 #define ARITHM_OP 1
 #define REL_OP 2
 
+typedef union Value{
+	int ival;
+	double fval;
+	char cval;
+	char *sval;
+}Value;
+
 
 typedef struct Param{
 	char par_name[MAXTOKENLEN];
-	int ival; char *st_sval;
-} Param;
+	Value val;
+}Param;
 
 /* linked list of references for each identifier */
 typedef struct RefList {
@@ -37,7 +44,7 @@ typedef struct list_t {
 	int st_size;
 	int scope;
 	RefList *lines;
-	int st_ival;
+	Value val;
 	// type
 	int st_type;
 	// function parameters
@@ -45,7 +52,7 @@ typedef struct list_t {
 	int num_of_pars;
 	// pointer to next item in list
 	struct list_t *next;
-} list_t;
+}list_t;
 
 /* Queue of identifiers to revisit */ 
 typedef struct revisit_queue {
@@ -86,4 +93,4 @@ void add_to_queue(char *name);
 int revisit(char *name);
 void revisit_dump(FILE *of); 
 
-#endif
+//#endif

@@ -1,7 +1,7 @@
 //example agp program that calculates a factorial
 
 SUBGRAPH(fact)
-		DATUM(x);
+	DATUM(x);
     INPUT(x);
     DATUM(result);
     OUTPUT(result);

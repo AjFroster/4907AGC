@@ -14,40 +14,48 @@
 
 /* YYSTYPE union */
 %union{
+	Value val;
+
+	/*
 	char char_val;
 	int int_val;
 	double double_val;
 	char* str_val;
+	*/
 
 	//structures
 	list_t* symtab_item;
-	// AST_Node* node; //worry about this when implementing AST
+	AST_Node* node;
+
+	Param par;
 }
 
 /* token definition */
-%token <int_val> TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST
-%token <int_val> TOKEN_IF TOKEN_ELSE TOKEN_MERGE TOKEN_EXPANSION TOKEN_EXPAND TOKEN_MAPIN TOKEN_MAPOUT 
-%token <int_val> IOP OOP ADDOP MULOP SUBOP RELOP
-%token <int_val> LPAR RPAR LBRACK RBRACK LBRACE RBRACE SEMI DOT COMMA
+%token<val> TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST
+%token<val> TOKEN_IF TOKEN_ELSE TOKEN_MERGE TOKEN_EXPANSION TOKEN_EXPAND TOKEN_MAPIN TOKEN_MAPOUT 
+%token <val> IOP OOP ADDOP MULOP SUBOP RELOP
+%token <val> LPAR RPAR LBRACK RBRACK LBRACE RBRACE SEMI DOT COMMA
 %token <symtab_item> ID
-%token <int_val> ICONST FCONST CCONST 
-%token <str_val> STRING
+%token <val> ICONST FCONST CCONST 
+%token <val> STRING
 
 /* precedencies and associativities */
-%left LPAREN RPAREN LBRACK RBRACK
-%right NOTOP INCR REFER
-%left MULOP DIVOP
-%left ADDOP
-%left RELOP
-%left EQUOP
+%left COMMA
+%right ASSIGN
 %left OROP
 %left ANDOP
-%right ASSIGN
-%left COMMA
+%left EQUOP
+%left RELOP
+%left ADDOP
+%left MULOP DIVOP
+%right NOTOP INCR REFER MINUS
+%left LPAREN RPAREN LBRACK RBRACK
 
 /* rule (non-terminal) definition */
-//type <node> program
-//type <node> subgraph
+%type <node> program
+%type <node> subgraphs subgraph
+%type <node> instructions instruction
+
 
 %start program
 
@@ -59,24 +67,31 @@ program: subgraphs;
 
 subgraphs: subgraph | subgraphs subgraph;
 
-subgraph: {declare = 0;} TOKEN_SUBGRAPH LPAR ID RPAR {declare = 1;} instructions;
+subgraph: {declare = 0;} TOKEN_SUBGRAPH LPAR ID RPAR {declare = 1; incr_scope();} instructions
+				{ hide_scope(); } ;
 
-instructions: instruction | instructions instruction;
+instructions: instruction {ast_traversal($1);} | instructions instruction;
 
 instruction: TOKEN_DATUM LPAR ID RPAR SEMI
-				| TOKEN_OUTPUT LPAR ID RPAR SEMI
-				| TOKEN_INPUT LPAR ID RPAR SEMI
+				{
+					$$ = new_ast_datum_node($3);
+				}
+				//| TOKEN_OUTPUT LPAR ID RPAR SEMI
+				//| TOKEN_INPUT LPAR ID RPAR SEMI
 				| TOKEN_CONST LPAR ID COMMA ICONST RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
-				| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
-				| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
-				| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				{
+					$$ = new_ast_const_node($3, $5);
+				}
+				//| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
+				//| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				//| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
 				;
 
 %%
@@ -104,7 +119,7 @@ int main (int argc, char *argv[]){
 	printf("Parsing finished!\n");
 
 	if(queue != NULL) {
-		printf("Warning: Element(s) of the revisit queue have been left unchecked");
+		printf("Warning: Element(s) of the revisit queue have been left unchecked\n");
 	}
 	
 	// symbol table dump

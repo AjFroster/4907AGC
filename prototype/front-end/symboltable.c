@@ -104,12 +104,7 @@ void symtab_dump(FILE * of){
 			t = t->next;
 			}
 			fprintf(of,"\n");
-			l = l->next;	
-		}
-    }
-  }
-}
-
+			l = l->next;
 			
 			/*
 			if (l->st_type == INT_TYPE) fprintf(of,"%-7s","int");
@@ -137,6 +132,10 @@ void symtab_dump(FILE * of){
 			fprintf(of,"\n");
 			l = l->next;
 			*/
+		}
+    }
+  }
+}
 
 
 void hide_scope() {

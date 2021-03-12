@@ -1,7 +1,6 @@
 %{
-	#include "symboltable.c"	
-	#include "ast.h"
 	#include "ast.c"
+	#include "symboltable.c"
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -14,14 +13,14 @@
 
 /* YYSTYPE union */
 %union{
-	Value val;
+	//Value val;
 
-	/*
+	
 	char char_val;
 	int int_val;
 	double double_val;
 	char* str_val;
-	*/
+	
 
 	//structures
 	list_t* symtab_item;
@@ -32,13 +31,13 @@
 
 
 /* token definition */
-%token<val> TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST
-%token<val> TOKEN_IF TOKEN_ELSE TOKEN_MERGE TOKEN_EXPANSION TOKEN_EXPAND TOKEN_MAPIN TOKEN_MAPOUT 
-%token <val> IOP OOP ADDOP MULOP SUBOP RELOP
-%token <val> LPAR RPAR LBRACK RBRACK LBRACE RBRACE SEMI DOT COMMA
+%token <node> TOKEN_DATUM TOKEN_INPUT TOKEN_OUTPUT TOKEN_OPERATOR TOKEN_SUBGRAPH TOKEN_CONST TOKEN_EXPANSION TOKEN_EXPAND TOKEN_MAPIN TOKEN_MAPOUT 
+%token <int_val> TOKEN_IF TOKEN_ELSE TOKEN_MERGE 
+%token <int_val> IOP OOP ADDOP MULOP SUBOP RELOP
+%token <int_val> LPAR RPAR LBRACK RBRACK LBRACE RBRACE SEMI DOT COMMA
 %token <symtab_item> ID
-%token <val> ICONST FCONST CCONST 
-%token <val> STRING
+%token <int_val> ICONST FCONST CCONST 
+%token <str_val> STRING
 
 /* precedencies and associativities */
 %left COMMA
@@ -58,6 +57,7 @@
 %type <node> instructions instruction
 
 
+
 %start program
 
 /* expression rules */
@@ -66,12 +66,27 @@
 
 program: subgraphs;
 
+
 subgraphs: subgraph | subgraphs subgraph;
 
 subgraph: {declare = 0;} TOKEN_SUBGRAPH LPAR ID RPAR {declare = 1; incr_scope();} instructions
 				{ hide_scope(); } ;
 
 instructions: instruction {ast_traversal($1);} | instructions instruction;
+
+subgraphs: subgraph | subgraphs subgraph;
+
+subgraph: {declare = 0;} TOKEN_SUBGRAPH LPAR ID RPAR {declare = 1;} instructions;
+
+instructions: instruction 
+		{
+			$$ = new_instructions_node(NULL, 0, $1);		
+		}
+		| instructions instruction
+		{
+			AST_Node_Instructions *temp = (AST_Node_Instructions*) $1;
+			$$ = new_instructions_node(temp->instructions, temp->instruction_count, $2);
+		};
 
 instruction: TOKEN_DATUM LPAR ID RPAR SEMI
 				{
@@ -107,8 +122,6 @@ int main (int argc, char *argv[]){
 	// initialize symbol table
 	init_hash_table();
 
-	// initialize symbol table
-	init_hash_table();
 
 	// initialize revisit queue
 	queue = NULL;

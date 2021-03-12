@@ -1,6 +1,11 @@
+#ifndef AST_H
+#define AST_H
 
 
-/* NODE TYPES */
+#include "symboltable.h"
+
+
+/*------------NODE TYPES-----------------*/
 
 typedef enum Node_Type {
 	NODE, // for roots only
@@ -11,6 +16,7 @@ typedef enum Node_Type {
 	OUTPUT_NODE,
 	SUBGRAPH_NODE,
 	EXPAND_NODE,
+
 }Node_Type;
 
 /* Operator Types */
@@ -27,9 +33,10 @@ typedef enum Rel_op{
 	LESS_EQUAL,
 }Rel_op;
 
-/* AST Nodes */
 
-/* Basic Node */
+
+/*------------AST Nodes------------*/
+//basic node
 typedef struct AST_Node {
 	enum Node_Type type;
 	struct AST_Node *left;
@@ -39,14 +46,13 @@ typedef struct AST_Node {
 typedef struct AST_Node_Datum {
 	enum Node_Type type;
 
-
 	char *name;
-}AST_NODE_DATUM;
+}AST_Node_Datum;
 
 typedef struct AST_Node_Const {
 	enum Node_Type type;
-
-	Value val;
+	char *name;
+	int val;
 }AST_Node_Const;
 
 
@@ -60,7 +66,7 @@ typedef struct AST_Node_Output{
 	enum Node_Type type;
 
 
-	Value val;
+	int val;
 }AST_Node_Output;
 
 
@@ -68,8 +74,33 @@ typedef struct AST_Node_Output{
 
 AST_Node *new_ast_node(Node_Type type, AST_Node *left, AST_Node *right);
 AST_Node *new_ast_datum_node(char *name);
-AST_Node *new_ast_const_node(char *name, Value val);
+AST_Node *new_ast_const_node(char *name, int val);
 
 /* AST Traversal */
 void ast_print_node(AST_Node *node); // print node information
 void ast_traversal(AST_Node *node);
+
+
+//instructions
+typedef struct AST_Node_Instructions{
+	enum Node_Type type; // node type
+	
+	// declarations
+	struct AST_Node **instructions;
+	int instruction_count;
+}AST_Node_Instructions;
+
+
+/*
+typedef struct AST_NODE_DATUM {
+	enum Node_Type type;
+
+	int data_type;
+
+	list_t **names;
+	int names_count;
+}AST_NODE_DATUM;
+*/
+
+#endif
+

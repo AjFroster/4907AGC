@@ -1,11 +1,11 @@
 %option noyywrap
 
 %{
+	#include "ast.h"
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
 	#include "symboltable.h"
-	#include "ast.h"
 	#include "parser.tab.h"
 	extern FILE *yyin;
 	extern FILE *yyout;
@@ -76,11 +76,14 @@ STRING		\"{print}*\"
 											yylval.symtab_item = lookup(yytext);
 											return ID; 
 											}
-{ICONST}    								{ yylval.val.ival   = atoi(yytext); return ICONST; }
-{FCONST}    								{ yylval.val.fval = atof(yytext); return FCONST; }
-{CCONST}    								{ yylval.val.cval  = yytext[0];    return CCONST; }
-{STRING}    								{ yylval.val.sval = malloc(yyleng * sizeof(char));
-								              strcpy(yylval.val.sval, yytext);  return STRING; }
+
+
+{ICONST}    								{ yylval.int_val   = atoi(yytext); return ICONST; }
+{FCONST}    								{ yylval.double_val = atof(yytext); return FCONST; }
+{CCONST}    								{ yylval.char_val  = yytext[0];    return CCONST; }
+{STRING}    								{ yylval.str_val = malloc(yyleng * sizeof(char));
+								              strcpy(yylval.str_val, yytext);  return STRING; }
+
 
 "\n"										{ lineno += 1; }
 [ \t\r\f]+									/* eat up whitespace */
@@ -88,4 +91,3 @@ STRING		\"{print}*\"
 .											{ yyerror("Unrecognized character"); }
 
 %%
-

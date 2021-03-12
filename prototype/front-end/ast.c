@@ -1,3 +1,4 @@
+#include "ast.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +17,12 @@ AST_Node *new_ast_node(Node_Type type, AST_Node *left, AST_Node *right) {
 	return v;
 }
 
+AST_Node *new_instructions_node(AST_Node **instructions, int instruction_count, AST_Node *instruction){
+	// allocate memory
+	AST_Node_Instructions *v = malloc (sizeof (AST_Node_Instructions));
+	
+}
+
 AST_Node *new_ast_datum_node(char *name) {
 	AST_Node_Datum *v = malloc (sizeof (AST_Node_Datum));
 
@@ -25,7 +32,7 @@ AST_Node *new_ast_datum_node(char *name) {
 	return (struct AST_Node *) v;
 }
 
-AST_Node *new_ast_const_node(char *name, Value val) {
+AST_Node *new_ast_const_node(char *name, int val) {
 	AST_Node_Const *v = malloc (sizeof (AST_Node_Const));
 	list_t l;
 
@@ -47,7 +54,7 @@ void ast_print_node(AST_Node *node) {
 	AST_Node_Datum *temp_datum;
 	AST_Node_Const *temp_const;
 
-	switch(node->) {
+	switch(node->type) {
 		case NODE:
 			printf("Basic Node\n");
 			break;
@@ -57,7 +64,7 @@ void ast_print_node(AST_Node *node) {
 			break;
 		case CONST_NODE:
 			temp_const = (struct AST_Node_Const *) node;
-			printf("Constant node with value %d\n", temp_const->val.ival);
+			printf("Constant node with value %d\n", temp_const->val);
 			break;
 		default:
 			fprintf(stderr, "Error has occured\n");
@@ -72,9 +79,12 @@ void ast_traversal(AST_Node *node) {
 		return;
 	}
 
-	if(node->type == NODE || node->type == NODE_DATUM || NODE_CONST) {
+	if(node->type == NODE || node->type == DATUM_NODE || CONST_NODE) {
 		ast_traversal(node->left);
 		ast_traversal(node->right);
 		ast_print_node(node);
 	}
 }
+
+
+

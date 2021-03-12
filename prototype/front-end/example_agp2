@@ -1,0 +1,19 @@
+
+  SUBGRAPH(main)
+		DATUM(x);
+		DATUM(y);
+		INPUT(x);
+    OUTPUT(y);
+
+    SUBGRAPH(fact)
+        DATUM(x);
+        DATUM(y);
+        INPUT(x);
+    OUTPUT(y);
+
+    SUBGRAPH(add)
+        DATUM(x);
+        DATUM(y);
+        INPUT(x);
+    OUTPUT(y);
+    

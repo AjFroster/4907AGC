@@ -1,0 +1,11 @@
+front-end 
+------------------------------------------------------------------
+To run the current version of the Asynchronous Graphical Compiler:
+$ make
+$ ./agc example_agp
+
+------------------------------------------------------------------
+This version correctly identifies tokens and checks the syntax of 
+the input agp code. symtab_dump.out and revisit_dump.out are 
+created once ./agc is ran. They contain all the identifiers in the 
+symbol table and all subgraphs respectively

@@ -1,0 +1,9 @@
+// simple agp program with only one subgraph
+
+SUBGRAPH(timestwo)
+	DATUM(x);
+	DATUM(y);
+	INPUT(x);
+	CONST(two, 2);
+	OPERATOR(y,op_TIMES,x,two);
+	OUTPUT(y);

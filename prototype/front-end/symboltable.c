@@ -7,7 +7,7 @@
 int cur_scope = 0;
 
 /* flag variable for declaring */ 
-int declare = 0; // 1 = declaring variable, 0 = not declaring variable
+int declare = 1; // 1 = declaring variable, 0 = not declaring variable
 
 void init_hash_table() {
 	int i;
@@ -86,9 +86,9 @@ list_t *lookup(char *name){ /* return symbol if found or NULL if not found */
 /* print to stdout by default */ 
 void symtab_dump(FILE * of){  
   int i;
-  fprintf(of,"------------ ------ ------------\n");
-  fprintf(of,"Name         Type   Line Numbers\n");
-  fprintf(of,"------------ ------ -------------\n");
+  fprintf(of,"------------ ------ ------ ------------\n");
+  fprintf(of,"Name         Type   Scope   Line Numbers\n");
+  fprintf(of,"------------ ------ ------ -------------\n");
   for (i=0; i < SIZE; ++i){ 
 	if (hash_table[i] != NULL){ 
 		list_t *l = hash_table[i];
@@ -97,6 +97,8 @@ void symtab_dump(FILE * of){
 			fprintf(of,"%-12s ",l->st_name);
 
 			fprintf(of,"%-7s","undef"); // if UNDEF or 0
+			fprintf(of,"  %d  ",l->scope);
+
 			while (t != NULL){
 				fprintf(of,"%4d ",t->lineno);
 			t = t->next;
@@ -134,6 +136,7 @@ void symtab_dump(FILE * of){
     }
   }
 }
+
 
 void hide_scope() {
 	list_t *l;
@@ -266,3 +269,4 @@ void revisit_dump(FILE *of) {
 		q = q->next;
 	}
 }
+

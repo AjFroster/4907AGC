@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I.
-DEPS = symboltable.h
-OBJ = symboltable.o
+DEPS = symboltable.h ast.h
+OBJ = symboltable.o ast.o
 
 %.o: %.c $(DEPS)
 		$(CC) -c -o $@ $< $(CFLAGS)

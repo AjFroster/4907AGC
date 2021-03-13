@@ -38,7 +38,6 @@ STRING		\"{print}*\"
 <ML_COMMENT>"*"			
 <ML_COMMENT>"\n"							{ lineno += 1; }
 
-
 "op_IF"										{ return TOKEN_IF; }
 "op_ELSE"									{ return TOKEN_ELSE; }
 "op_MERGE"									{ return TOKEN_MERGE; }	
@@ -91,3 +90,81 @@ STRING		\"{print}*\"
 .											{ yyerror("Unrecognized character"); }
 
 %%
+
+
+/* for testing purposes to print out tokens */
+
+/*
+void ret_print(char *token_type) {
+	printf("yytext: %s\ttoken: %s\tlineno: %d\n", yytext, token_type, lineno);
+}
+
+void yyerror(char *message) {
+	printf("Error: \"%s\" in line %d. Token = %s\n", message, lineno, yytext);
+	exit(1);
+}
+
+int main(int argc, char *argv[]) {
+	//initialize symboltable
+	//init_hash_table();
+
+	yyin = fopen(argv[1], "r");
+
+	yylex();
+	fclose(yyin);
+
+	
+	//yyout = fopen("symtab_dump.out", "w");
+	//symtab_dump(yyout);
+	//fclose(yyout);
+	
+
+	return 0;
+}
+*/
+
+/* ----------For testing purposes if you wish to print out tokens------------ */
+
+/*
+"op_IF"										{ ret_print("TOKEN_IF"); }
+"op_ELSE"									{ ret_print("TOKEN_ELSE"); }
+"op_MERGE"									{ ret_print("TOKEN_MERGE"); }	
+"op_EXPANSION"								{ ret_print("TOKEN_EXPANSION"); }
+"EXPAND"									{ ret_print("TOKEN_EXPAND"); }
+"DATUM"										{ ret_print("TOKEN_DATUM"); }
+"OPERATOR"									{ ret_print("TOKEN_OPERATOR"); }
+"SUBGRAPH"									{ ret_print("TOKEN_SUBGRAPH"); }
+"INPUT"										{ ret_print("TOKEN_INPUT"); }
+"OUTPUT"									{ ret_print("TOKEN_OUTPUT"); } 	
+"CONST"										{ ret_print("TOKEN_CONST"); }	
+"MAP_IN"									{ ret_print("TOKEN_MAPIN"); }	
+"MAP_OUT"									{ ret_print("TOKEN_MAPOUT"); }	
+		
+"op_INPUT"									{ ret_print("IOP"); }
+"op_OUTPUT"									{ ret_print("OOP"); }
+"op_PLUS"									{ ret_print("ADDOP"); }
+"op_TIMES"									{ ret_print("MULOP"); }
+"op_MINUS"									{ ret_print("SUBOP"); }
+"op_ISEQUAL"|"op_ISLESS"|"op_ISGREATER" 	{ ret_print("RELOP"); }
+
+"("											{ ret_print("LPAR"); }
+")"											{ ret_print("RPAR"); }
+"]"											{ ret_print("RBRACK"); }
+"["											{ ret_print("LBRACK"); }
+"{"											{ ret_print("LBRACE"); }
+"}"											{ ret_print("RBRACE"); }
+";"											{ ret_print("SEMI"); }
+"."											{ ret_print("DOT"); }
+","											{ ret_print("COMMA"); }
+
+
+{ID} 										{ 
+											ret_print("ID"); 
+											}
+
+
+{ICONST}    								{ret_print("ICONST"); }
+{FCONST}    								{ret_print("FCONST"); }
+{CCONST}    								{ret_print("CCONST"); }
+{STRING}    								{ret_print("STRING"); }
+*/

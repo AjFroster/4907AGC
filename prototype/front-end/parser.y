@@ -9,6 +9,7 @@
 	extern int lineno;
 	extern int yylex();
 	void yyerror();
+
 %}
 
 /* YYSTYPE union */
@@ -55,6 +56,8 @@
 %type <node> program
 %type <node> subgraphs subgraph
 %type <node> instructions instruction
+//%type <node> datum
+//%type <node> operation
 
 
 
@@ -64,51 +67,67 @@
 
 %%
 
-program: subgraphs;
+program: subgraphs {ast_traversal($1);};
 
 
 subgraphs: subgraph | subgraphs subgraph;
 
-subgraph: {declare = 0;} TOKEN_SUBGRAPH LPAR ID RPAR {declare = 1; incr_scope();} instructions
-				{ hide_scope(); } ;
-
-instructions: instruction {ast_traversal($1);} | instructions instruction;
-
-subgraphs: subgraph | subgraphs subgraph;
-
-subgraph: {declare = 0;} TOKEN_SUBGRAPH LPAR ID RPAR {declare = 1;} instructions;
+subgraph: /*{declare = 0;}*/ TOKEN_SUBGRAPH LPAR ID RPAR {/*declare = 1;*/ incr_scope();} instructions 	
+				/*{ hide_scope(); } */;
 
 instructions: instruction 
 		{
-			$$ = new_instructions_node(NULL, 0, $1);		
+			$$ = new_instructions_node(NULL, 0, $1);
+			//printf("%d\n", $1->type);
+			//ast_traversal($$); //just for testing		
 		}
 		| instructions instruction
 		{
 			AST_Node_Instructions *temp = (AST_Node_Instructions*) $1;
 			$$ = new_instructions_node(temp->instructions, temp->instruction_count, $2);
+			//ast_traversal($$); //just for testing
 		};
 
 instruction: TOKEN_DATUM LPAR ID RPAR SEMI
 				{
 					$$ = new_ast_datum_node($3);
+					//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+					ast_traversal($$); //just for testing
 				}
-				//| TOKEN_OUTPUT LPAR ID RPAR SEMI
-				//| TOKEN_INPUT LPAR ID RPAR SEMI
+				| TOKEN_OUTPUT LPAR ID RPAR SEMI
+				{
+					$$ = new_ast_output_node($3);
+					//printf("%d %s\n", $$->type, $3->st_name);
+					//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+					ast_traversal($$); //just for testing
+				}
+				| TOKEN_INPUT LPAR ID RPAR SEMI
+				{
+					$$ = new_ast_input_node($3);
+					//printf("%d %s\n", $$->type, $3->st_name);
+					//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+					ast_traversal($$); //just for testing
+				}
 				| TOKEN_CONST LPAR ID COMMA ICONST RPAR SEMI
 				{
 					$$ = new_ast_const_node($3, $5);
+					//AST_Node_Const *temp = (AST_Node_Const*) $$;
+					ast_traversal($$); //just for testing
 				}
-				//| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
-				//| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
-				//| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
-				//| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
+				| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
 				;
+
+
+
 
 %%
 
@@ -149,4 +168,74 @@ int main (int argc, char *argv[]){
 	fclose(yyout);
 
 	return flag;
+
+
+	/*
+instruction: TOKEN_DATUM LPAR ID RPAR SEMI
+				{
+					$$ = new_ast_datum_node($3);
+					//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+					ast_traversal($$); //just for testing
+				}
+				| TOKEN_OUTPUT LPAR ID RPAR SEMI
+				| TOKEN_INPUT LPAR ID RPAR SEMI
+				| TOKEN_CONST LPAR ID COMMA ICONST RPAR SEMI
+				{
+					$$ = new_ast_const_node($3, $5);
+					//AST_Node_Const *temp = (AST_Node_Const*) $$;
+					ast_traversal($$); //just for testing
+				}
+				//| TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
+				| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
+				//| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
+				//| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				//| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+				;
+
+				atum: TOKEN_DATUM LPAR ID RPAR SEMI
+		{
+			$$ = new_ast_datum_node($3);
+			//printf("%d %s\n", $$->type, $3->st_name);
+			//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+			//ast_traversal($$); //just for testing
+		}
+		| TOKEN_OUTPUT LPAR ID RPAR SEMI
+		{
+			$$ = new_ast_output_node($3);
+			//printf("%d %s\n", $$->type, $3->st_name);
+			//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+			//ast_traversal($$); //just for testing
+		}
+		| TOKEN_INPUT LPAR ID RPAR SEMI
+		{
+			$$ = new_ast_input_node($3);
+			//printf("%d %s\n", $$->type, $3->st_name);
+			//AST_Node_Datum *temp = (AST_Node_Datum*) $$;
+			//ast_traversal($$); //just for testing
+		}
+		| TOKEN_CONST LPAR ID COMMA ICONST RPAR SEMI
+		{
+			$$ = new_ast_const_node($3, $5);
+			//AST_Node_Const *temp = (AST_Node_Const*) $$;
+			//ast_traversal($$); //just for testing
+		}
+		;
+
+operation: TOKEN_OPERATOR LPAR ID COMMA RELOP COMMA ID COMMA ID RPAR SEMI
+			//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_IF COMMA ID COMMA ID RPAR SEMI
+			//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_ELSE COMMA ID COMMA ID RPAR SEMI
+			| TOKEN_OPERATOR LPAR ID COMMA MULOP COMMA ID COMMA ID RPAR SEMI
+			//| TOKEN_OPERATOR LPAR ID COMMA ADDOP COMMA ID COMMA ID RPAR SEMI
+			//| TOKEN_OPERATOR LPAR ID COMMA SUBOP COMMA ID COMMA ID RPAR SEMI
+			//| TOKEN_OPERATOR LPAR ID COMMA TOKEN_MERGE COMMA ID COMMA ID RPAR SEMI
+			//| TOKEN_EXPAND LPAR ID COMMA TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI 
+			//| TOKEN_MAPOUT LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+			//| TOKEN_MAPIN LPAR ID COMMA ID RPAR SEMI RPAR SEMI 
+			;
+*/
 }

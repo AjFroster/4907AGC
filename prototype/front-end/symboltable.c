@@ -7,7 +7,7 @@
 int cur_scope = 0;
 
 /* flag variable for declaring */ 
-int declare = 0; // 1 = declaring variable, 0 = not declaring variable
+int declare = 1; // 1 = declaring variable, 0 = not declaring variable
 
 void init_hash_table() {
 	int i;
